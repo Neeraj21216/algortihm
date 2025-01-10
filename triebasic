@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+using namespace std;
+//write theory part here 
+//first there is a root and it has 26 node 
+//''->{'a','b'------'z'}
+//now Trie[a]  will contain pointer to  its node 
+//node will contain value and its childrenn and isTerminal whether it is ending point or 
+//not just like that and go on don't be so st
+//    
+class TrieNode{
+    public:
+    char value;
+    TrieNode*  children[26];
+    bool isTerminal;
+    
+    //constructor
+    TrieNode(char v){
+        this->value =v;
+        this->isTerminal=false;
+        for(int i=0;i<26;i++){
+            this->children[i]=NULL;
+        }
+        
+    }
+    
+    
+};
+//
+void insert(string &word,int i,TrieNode* root){
+    //write base case 
+    if(i==word.size()){
+        root->isTerminal=true;
+        return ;
+    }
+    char ch=word[i];
+    if(root->children[ch-'a']==NULL){
+        //create a new childrend 
+        TrieNode* temp=new TrieNode(ch);
+        root->children[ch-'a']=temp;
+        //note that address of temp is =root->children[ch-'a'];
+        insert(word,i+1,root->children[ch-'a']);
+    }
+    else{
+        insert(word,i+1,root->children[ch-'a']);
+    }
+    //now go for searching 
+    
+}
+bool searching(string &word,int i,TrieNode* root){
+    if(i==word.size()){
+        //base case has been entered 
+        if(root->isTerminal){
+            return true;
+        }
+        return false;   
+    }
+    char ch=word[i];
+    if(root->children[ch-'a']==NULL){
+        return false;
+    }
+    bool ans=false;
+    ans=searching(word,i+1,root->children[ch-'a']);
+    return ans;
+}
+//if you want to delete something just delete it 
+
+int main() {
+    ///
+    //just go for search ,insert,delete
+    TrieNode* root=new TrieNode('.');
+    //you have created a node and just go on what you did today was the most horrible thing you have done today 
+    string word="and";
+    int i=0;
+    insert(word,i,root);
+    //do we need any i here
+    string word2="and";
+    bool present=searching(word2,i,root);
+    if(present){
+        cout<<"present hai ji "<<endl;
+    }
+    else    {
+        cout<<"not present ji "<<endl;
+    }
+}
